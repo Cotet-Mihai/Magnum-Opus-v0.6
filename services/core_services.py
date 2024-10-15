@@ -11,7 +11,11 @@ secret_key = os.getenv('SECRET_KEY')
 
 def create_connection():
     """
-    :return: Return connection string to database
+    Establishes a connection to the MySQL database using credentials from environment variables.
+
+    :return: A connection object to the MySQL database if successful, otherwise None.
+
+    :raises Error: Raises an exception if the connection fails with an error message.
     """
 
     try:
@@ -30,8 +34,16 @@ def create_connection():
 
 def handle_dashboard_access(role: str, template):
     """
-    :param role: The role of the user in the session
-    :param template: The template the user needs to reach
+    Checks if the current user's role matches the required role for accessing a specific template.
+
+    :param role: The role of the user that is required to access the dashboard.
+
+    :param template: The template that the user is trying to access.
+
+    :return: Returns the template if the user has the required role.
+    Otherwise, redirects to the in-progress page if the user exists in the session.
+
+    :raises KeyError: Raises an exception if 'user' is not found in session.
     """
     if session['user'][5] == role:  # Check if user is in session and have role admin
 

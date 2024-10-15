@@ -4,6 +4,12 @@ in_progress_bp = Blueprint('in_progress', __name__)
 
 @in_progress_bp.route('/in_progress')
 def in_progress():
+    """
+    Renders a page indicating that the section is currently under development.
+
+    :return: Returns the rendered in-progress template if the user is authenticated,
+    or redirects to the authentication page if the user is not authenticated.
+        """
 
     if 'user' in session:
         user = session['user']

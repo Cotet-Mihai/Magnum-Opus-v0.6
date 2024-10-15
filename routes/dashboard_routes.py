@@ -5,6 +5,13 @@ dashboard_bp = Blueprint('dashboard', __name__)
 
 @dashboard_bp.route('/dashboard')
 def dashboard_admin():
+    """
+    Renders the admin dashboard if the user is authenticated and has the 'Admin' role.
+
+    :return: Returns the rendered dashboard template if the user is an admin,
+    or redirects to the authentication page if the user is not authenticated.
+    """
+
     if 'user' in session:  # Check if user is in session
 
         user = session['user']  # Save user

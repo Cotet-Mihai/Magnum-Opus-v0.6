@@ -3,9 +3,13 @@ from services.core_services import create_connection
 
 def verify_auth(username: str, password: str):
     """
-    :param username: The user's username
-    :param password: The user's password
-    :return: The user found in the database or None
+    Verifies user credentials against the database.
+
+    :param username: The user's full name, expected as 'LastName FirstName'.
+    :param password: The user's password.
+
+    :return: Returns the user record found in the database as a tuple if the credentials are valid,
+    or None if the credentials are invalid or an error occurs.
     """
     connection = None
     cursor = None
