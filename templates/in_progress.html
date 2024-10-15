@@ -1,5 +1,17 @@
-<h1>Buna {{ user }}</h1>
-<p>Inca pregatim aceasta parte... :(</p>
-<br>
-<br>
-<button onclick="window.location.href='{{ url_for('auth.logout') }}'">Deconecteaza-te</button>
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/in_progress.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <title>In Progres</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Bună, {{ user }}!</h1>
+        <p>Încă pregătim această parte... :(</p>
+        <button onclick="window.location.href='{{ url_for('auth.logout') }}'" class="logout-button">Deconectează-te</button>
+    </div>
+</body>
+</html>
