@@ -1,44 +1,44 @@
 body {
-    font-family: 'Arial', sans-serif; /* Font general */
-    background-color: var(--gray-level-1); /* Culoare de fundal închisă */
+    font-family: 'Arial', sans-serif;
+    background-color: var(--gray-level-1);
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center; /* Centrează conținutul pe orizontală */
-    align-items: center; /* Centrează conținutul pe verticală */
-    height: 100vh; /* Înălțimea completă a ferestrei */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .container {
-    text-align: center; /* Aliniază textul la centru */
-    background-color: var(--gray-level-2); /* Fundal gri închis pentru container */
-    padding: 2rem; /* Spațiu interior */
-    border-radius: 8px; /* Colțuri rotunjite */
-    box-shadow: 0 4px 8px var(--black-shadow); /* Umbră ușoară */
+    text-align: center;
+    background-color: var(--gray-level-2);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px var(--black-shadow);
 }
 
 h1 {
-    color: var(--white); /* Culoare albă pentru titlu */
-    margin-bottom: 1rem; /* Spațiu sub titlu */
+    color: var(--white);
+    margin-bottom: 1rem;
 }
 
 p {
-    color: var(--gray-level-4); /* Culoare gri deschis pentru paragraf */
-    margin-bottom: 2rem; /* Spațiu sub paragraf */
+    color: var(--gray-level-4);
+    margin-bottom: 2rem;
 }
 
 .logout-button {
-    background-color: var(--white); /* Culoare roșie pentru buton */
-    color: var(--gray-level-0); /* Culoare albă pentru text */
-    border: none; /* Fără margini */
-    border-radius: 5px; /* Colțuri rotunjite */
-    padding: 0.75rem 1.5rem; /* Spațiu interior */
+    background-color: var(--white);
+    color: var(--gray-level-0);
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 1.5rem;
     font-weight: bold;
-    cursor: pointer; /* Cursor pointer pentru buton */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Tranziție pentru culoarea fundalului */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .logout-button:hover {
-    background-color: var(--red-level-1); /* Culoare mai închisă la hover */
+    background-color: var(--red-level-1);
     color: var(--white);
 }
