@@ -1,0 +1,25 @@
+/*-------------------------------------------------- Colors -------------------------------------------------*/
+
+:root {
+    --gray-level-0: #101010;
+    --gray-level-1: #171717;
+    --gray-level-2: #212121;
+    --gray-level-3: #474747;
+    --gray-level-4: #8a8a8a;
+
+    --white: #d9d9d9;
+
+    --red-level-0: #770000;
+    --red-level-1: #b90610;
+    --red-level-2: #dd001a;
+    --red-level-3: #FF3030;
+
+    --green-level-0: #0b8c26;
+    --green-level-1: #14FA46;
+
+    --yellow-level-0: #FFF620;
+
+    --black-shadow: rgba(0, 0, 0, 0.67);
+
+    --gradient-red: radial-gradient(circle at 10% 20%, rgb(221, 49, 49) 0%, rgb(119, 0, 0) 90%);
+}

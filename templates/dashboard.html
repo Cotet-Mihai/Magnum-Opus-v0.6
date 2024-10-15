@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="icon" href={{ url_for('static', filename='img/logo_red.ico') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/colors.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard.css') }}>
+</head>
+<body>
+    <nav>
+        <img src="{{ url_for('static', filename='img/logo_red.png') }}" alt="Magnum Logo" width="50px">
+        <p>Magnum OPUS</p>
+        <button id="logout-button" onclick=window.location.href='{{ url_for('auth.logout') }}'>Deconectare</button>
+    </nav>
+    <div id="content-container">
+        <h1>Bine ai venit, {{ user[1] }}!</h1>
+
+        <div id="nav-buttons">
+            <div class="button-container">
+                <button onclick="window.location.href='{{ url_for('employees.employees_admin') }}'">
+                    <img src="{{ url_for('static', filename='img/icons/users_red.png') }}" alt="Personal button" width="80px">
+                </button>
+                <p>Personal</p>
+            </div>
+
+            <div class="button-container">
+                <button onclick="window.location.href='{{ url_for('in_progress.in_progress') }}'">
+                    <img src="{{ url_for('static', filename='img/icons/map_red.png') }}" alt="Personal button" width="80px">
+                </button>
+                <p>Locatii</p>
+            </div>
+
+            <div class="button-container">
+                <button onclick="window.location.href='{{ url_for('in_progress.in_progress') }}'">
+                    <img src="{{ url_for('static', filename='img/icons/depot_red.png') }}" alt="Personal button" width="80px">
+                </button>
+                <p>Depozit</p>
+            </div>
+
+            <div class="button-container">
+                <button onclick="window.location.href='{{ url_for('in_progress.in_progress') }}'">
+                    <img src="{{ url_for('static', filename='img/icons/ticket_red.png') }}" alt="Personal button" width="80px">
+                </button>
+                <p>Ticket</p>
+            </div>
+
+            <div class="button-container">
+                <button onclick="window.location.href='{{ url_for('in_progress.in_progress') }}'">
+                    <img src="{{ url_for('static', filename='img/icons/hammer_red.png') }}" alt="Personal button" width="80px">
+                </button>
+                <p>Deschideri</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

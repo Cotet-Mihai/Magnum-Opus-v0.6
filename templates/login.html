@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Magnum OPUS</title>
+    <link rel="icon" href={{ url_for('static', filename='img/logo_red.ico') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/colors.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/login.css') }}>
+</head>
+
+<body>
+    <div id="login-container">
+        <div id="marketing-container">
+            <img src="{{ url_for('static', filename='img/logo_white.png') }}" alt="Magnum Logo" width="200px">
+            <img src="{{ url_for('static', filename='img/text_white.png') }}" alt="Magnumbet" width="300px">
+        </div>
+
+        <div id="form-container">
+            <h1>Autentificare</h1>
+            <form action="" method="post" id="login-form">
+
+                <div id="input-container">
+                    <div class="input">
+                        <label for="username-input">Utilizator:</label>
+                        <input id="username-input" type="text" name="username">
+                    </div>
+
+                    <div class="input">
+                        <label for="username-input">Parola:</label>
+                        <input id="username-input" type="password" name="password">
+                    </div>
+                </div>
+
+                <p>{{ error_message }}</p>
+
+                <input type="submit" value="Conecteaza-te" id="submit-input">
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

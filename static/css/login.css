@@ -1,0 +1,149 @@
+/* TO DO IN FUTURE:
+1. Fa platforma friendly si pentru telefon
+- ia in considerare sa refaci cu totul pagina pentru telefon
+*/
+
+/*-----------------------------------------------------------------------------------------------------------*/
+
+*{
+    font-family: Montserrat, sans-serif;
+}
+
+body, html  {
+    padding: 0;
+    margin: 0;
+}
+
+/*---------------------------------------------------- Body -------------------------------------------------*/
+
+body{
+    background: var(--gray-level-1);
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*------------------------------------------------ Login ---------------------------------------------------*/
+
+#login-container{
+    width: 800px;
+    height: 400px;
+
+    display: flex;
+}
+
+/*----------------------------------------------- Marketing ------------------------------------------------*/
+
+#marketing-container{
+    width: 50%;
+    height: 100%;
+    background: var(--gradient-red);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    box-shadow: 0 0 30px var(--black-shadow);
+}
+
+/*----------------------------------------------- Form ---------------------------------------------------*/
+
+#form-container{
+    width: 50%;
+    height: 100%;
+    background: var(--gray-level-2);
+
+    color: var(--white);
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 0 30px var(--black-shadow);
+}
+
+#form-container h1{
+    align-self: center;
+
+    font-weight: 100;
+
+    margin-top: 50px;
+}
+
+#form-container form {
+    display: flex;
+    height: 100%;
+
+    flex-direction: column;
+}
+
+#form-container form p {
+    font-size: 0.8rem;
+    color: var(--red-level-2);
+    text-align: center;
+}
+
+#input-container{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+}
+
+.input label{
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+}
+
+.input input{
+    margin-bottom: 20px;
+
+    background: var(--white);
+    border-radius: 2px;
+    border: 0;
+    height: 20px;
+
+    text-align: center;
+
+    transition: box-shadow 0.3s ease;
+}
+
+#submit-input{
+    margin-top: auto;
+    height: 50px;
+
+    font-size: 1.5rem;
+    font-weight: 500;
+    border: 0;
+
+    background: var(--white);
+
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/*----------------------------------------------- Hover ----------------------------------------------------*/
+
+#submit-input:hover, #submit-input:focus{
+    box-shadow: 0 0 20px var(--red-level-2);
+
+    background: var(--red-level-2);
+    color: var(--white);
+}
+
+.input input:hover, input:focus{
+    box-shadow: 0 0 20px var(--red-level-2);
+    outline: none;
+}
+
