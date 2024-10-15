@@ -1,9 +1,13 @@
 from flask import Flask
-app = Flask(__name__)
+from dotenv import load_dotenv
+import os
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+
+# Load the variables from the .env file
+load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', debug=True)
