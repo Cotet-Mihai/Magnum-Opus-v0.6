@@ -1,0 +1,38 @@
+{% block navbar %}
+    <!-- DE MODIFICAT HREF-URILE CA SA DAI ACCES LA URL-URI IN FUNCTIE DE ROLE -->
+    <nav>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
+
+        <a href="{{ url_for('dashboard.dashboard_admin') }}">
+            <img src="{{ url_for('static', filename='img/logo_red.png') }}" alt="Magnum Logo" width="50px">
+        </a>
+
+        <div class="line"></div>
+
+        <a href="{{ url_for('employees.employees_admin') }}" class="icons {% if active_page == 'employees' %}active{% endif %}">
+            <img src="{{ url_for('static', filename='img/icons/users_red.png') }}" alt="Personal Icon" width="35px">
+        </a>
+
+        <a href="" class="icons {% if active_page == 'locations' %}active{% endif %}">
+            <img src="{{ url_for('static', filename='img/icons/map_red.png') }}" alt="Locatii Icon" width="35px">
+        </a>
+
+        <a href="" class="icons {% if active_page == 'depots' %}active{% endif %}">
+            <img src="{{ url_for('static', filename='img/icons/depot_red.png') }}" alt="Depozit Icon" width="35px">
+        </a>
+
+        <a href="" class="icons {% if active_page == 'ticket' %}active{% endif %}">
+            <img src="{{ url_for('static', filename='img/icons/ticket_red.png') }}" alt="Ticket Icon" width="35px">
+        </a>
+
+        <a href="" class="icons {% if active_page == 'openings' %}active{% endif %}">
+            <img src="{{ url_for('static', filename='img/icons/hammer_red.png') }}" alt="Deschideri Icon" width="35px">
+        </a>
+
+        <a href="" class="icons" id="settings-icon">
+            <img src="{{ url_for('static', filename='img/icons/settings_red.png') }}" alt="Setari Icon" width="35px">
+        </a>
+
+
+    </nav>
+{% endblock %}

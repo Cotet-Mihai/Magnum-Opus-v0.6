@@ -1,0 +1,68 @@
+/* TO DO LIST:
+
+*/
+
+/*---------------------------------------------------- Body ---------------------------------------------------*/
+
+html, body{
+    padding: 0;
+    margin: 0;
+}
+
+
+/*---------------------------------------------------- Nav bar  -----------------------------------------------*/
+
+nav {
+    width: 70px;
+    height: 100vh;
+
+    background: var(--gray-level-1);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+nav img {
+    margin: 10px;
+}
+
+.line{
+    width: 80%;
+    height: 2px;
+
+    background: var(--gray-level-2);
+}
+
+#settings-icon{
+    margin-top: auto;
+}
+
+.icons {
+    transition: filter 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+
+    filter: brightness(0) invert(1);
+
+    margin-top: 8px;
+}
+
+.icons.active{
+    filter: none;
+}
+
+.icons.active img{
+    transform: scale(1.25);
+
+    margin-top: 8px;
+}
+
+/*---------------------------------------------------- Hover -----------------------------------------------*/
+
+.icons:hover {
+    transform: scale(1.25);
+
+    filter: none;
+
+    box-shadow: 0 0 20px var(--red-level-2);
+}

@@ -18,7 +18,8 @@ def verify_auth(username: str, password: str):
         connection = create_connection()
         cursor = connection.cursor()
 
-        username = username.split()
+        username = username.lower().split()
+        print(username)
 
         sql_query = "SELECT * FROM Magnum_OPUS.users WHERE last_name = %s AND first_name = %s AND password = %s"
         cursor.execute(sql_query, (username[0], username[1], password))

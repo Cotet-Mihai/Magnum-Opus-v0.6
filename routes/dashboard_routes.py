@@ -17,7 +17,13 @@ def dashboard_admin():
         user = session['user']  # Save user
 
         return handle_dashboard_access('Admin',
-                                       render_template('dashboard.html', user=user)
+                                       render_template('dashboard.html',
+                                                       user=user,
+                                                       employees_page='employees.employees_admin',
+                                                       locations_page='in_progress.in_progress',
+                                                       warehouses_page='in_progress.in_progress',
+                                                       tickets_page='in_progress.in_progress',
+                                                       openings_page='in_progress.in_progress')
                                        )
 
     else:
