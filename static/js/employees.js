@@ -7,19 +7,19 @@ const allAddEmployeeFormElements = addEmployeeForm.querySelectorAll('input, sele
 const addEmployeeFormInputDate = document.getElementById('add-employee-form-date');
 
 // 1.2 Add employee
-const addEmployeeFormfirstNameInput = document.getElementById('add-employee-form-first-name');
-const addEmployeeFormlastNameInput = document.getElementById('add-employee-form-last-name');
-const addEmployeeFormdepartmentInput = document.getElementById('add-employee-form-department');
-const addEmployeeFormroleInput = document.getElementById('add-employee-form-role');
-const addEmployeeFormcountyInput = document.getElementById('add-employee-form-county');
-const addEmployeeFormphoneInput = document.getElementById('add-employee-form-phone');
+const addEmployeeFormFirstNameInput = document.getElementById('add-employee-form-first-name');
+const addEmployeeFormLastNameInput = document.getElementById('add-employee-form-last-name');
+const addEmployeeFormDepartmentInput = document.getElementById('add-employee-form-department');
+const addEmployeeFormRoleInput = document.getElementById('add-employee-form-role');
+const addEmployeeFormCountyInput = document.getElementById('add-employee-form-county');
+const addEmployeeFormPhoneInput = document.getElementById('add-employee-form-phone');
 const addEmployeeFormSubmitButton = document.getElementById('submit-add-employee-button');
 
 // 2. EVENT LISTENERS  ----------------------------------------------------------------------
 
 // 2.1 Change height of the add employee form
 showAddEmployeeFormButton.addEventListener('click', changeHeightAddEmployeeForm);
-addEmployeeFormSubmitButton.addEventListener('click', addNewEmployee);
+addEmployeeFormSubmitButton.addEventListener('submit', addNewEmployee);
 
 // 3. OTHERS
 // 3.1 Set date to curent date
@@ -61,16 +61,15 @@ function deleteElementsValue() {
 // 4.3 Add new employee
 function addNewEmployee(event){
     event.preventDefault(); //Prevent the form from submitting normaly
-    console.log(4)
 
     // get all values
-    const firstName = addEmployeeFormfirstNameInput.value;
-    const lastName = addEmployeeFormlastNameInput.value;
-    const department = addEmployeeFormdepartmentInput.value;
-    const role = addEmployeeFormroleInput.value;
+    const firstName = addEmployeeFormFirstNameInput.value;
+    const lastName = addEmployeeFormLastNameInput.value;
+    const department = addEmployeeFormDepartmentInput.value;
+    const role = addEmployeeFormRoleInput.value;
     const employmentDate = addEmployeeFormInputDate.value;
-    const county = addEmployeeFormcountyInput.value;
-    const phone = addEmployeeFormphoneInput.value;
+    const county = addEmployeeFormCountyInput.value;
+    const phone = addEmployeeFormPhoneInput.value;
 
     fetch('/employees', {
         method: 'POST',
@@ -89,11 +88,9 @@ function addNewEmployee(event){
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            console.log(1)
             return response.json()
         })
         .then(data => {
-            console.log(2)
             if (data.category === 'Success'){
                 console.log(data.message)
             }
@@ -102,7 +99,6 @@ function addNewEmployee(event){
             }
         })
         .catch(error => {
-            console.log(3)
             console.log(error.message)
         })
 }

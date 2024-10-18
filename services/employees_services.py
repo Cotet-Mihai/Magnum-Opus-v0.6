@@ -1,6 +1,6 @@
 from flask import jsonify
-
 from services.core_services import create_connection
+from datetime import datetime
 
 
 def get_all_employees_by_role(role: str):
@@ -43,6 +43,25 @@ def get_all_employees_by_role(role: str):
             connection.close()
 
 def add_new_employee(user_data: dict):
+    """
+    Adds a new employee to the database.
+
+    :param user_data: A dictionary containing user data with the following keys:
+                      - last_name (str): The last name of the employee.
+                      - first_name (str): The first name of the employee.
+                      - password (str): The password for the employee.
+                      - department (str): The department the employee belongs to.
+                      - role (str): The role of the employee.
+                      - employment_date (str): The employment date in format 'aaaa-mm-dd'.
+                      - county (str): The county where the employee resides.
+                      - phone_number (str): The phone number of the employee.
+
+    :return: A JSON response containing a success message and HTTP status code 200 if the employee
+             was added successfully; otherwise, returns an error message with HTTP status code 400.
+
+    :raises Exception: If there is an error during the database operation, an exception is raised
+                      and logged, and a relevant error message is returned.
+    """
     connection = None
     cursor = None
 
@@ -80,5 +99,40 @@ def add_new_employee(user_data: dict):
             cursor.close()
             connection.close()
 
-def create_password():
-    return 'parolaaa112233'
+def create_password(first_name, last_name, employmeny_date, role):
+    """
+    Generates a password based on the employee's first name, last name, employment date, and role.
+
+    The password is structured as follows:
+    - The first two letters of the first name (lowercase).
+    - The day of the employment date.
+    - The month of the employment date.
+    - The first two letters of the last name (uppercase).
+    - A special character based on the role.
+
+    :param first_name: The first name of the employee (str).
+    :param last_name: The last name of the employee (str).
+    :param employmeny_date: The employment date in the format 'aaaa-mm-dd' (str).
+    :param role: The role of the employee (str), which determines the special character in the password.
+
+    :return: A generated password (str) based on the provided parameters.
+
+    :raises ValueError: If the employment date is not in the expected format.
+        """
+
+    part1 = first_name[:2].lower()
+    part2 = last_name[:2].upper()
+
+    day = datetime.strptime(employmeny_date, '%Y-%m-%d').day
+    month = datetime.strptime(employmeny_date, '%Y-%m-%d').month
+
+    symbol = None
+    match role:
+        case 'Admin':
+            symbol = '!'
+        case 'Suport':
+            symbol = '#'
+        case 'Tehnic':
+            symbol = '@'
+
+    return f'{part1}{day}{month}{part2}{symbol}'

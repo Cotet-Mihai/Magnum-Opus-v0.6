@@ -29,11 +29,11 @@ def employees_admin():
 def add_employee():
     new_employee_data = {'last_name': request.json.get('lastName'),
                          'first_name': request.json.get('firstName'),
-                         'password': create_password(),
+                         'password': create_password(request.json.get('lastName'), request.json.get('firstName'), request.json.get('employmentDate'), request.json.get('role')),
                          'department': request.json.get('department'),
-                         'role': 'role',
+                         'role': request.json.get('role'),
                          'employment_date': request.json.get('employmentDate'),
                          'county': request.json.get('county'),
-                         'phone_number': request.json.get('phoneNumber')}
+                         'phone_number': request.json.get('phone')}
 
     return add_new_employee(new_employee_data)
