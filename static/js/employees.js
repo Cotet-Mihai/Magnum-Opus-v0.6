@@ -19,11 +19,19 @@ const addEmployeeFormSubmitButton = document.getElementById('submit-add-employee
 const notification = document.getElementById('notification-container');
 const notificationMessage = document.getElementById('notification-message');
 
+// 1.4 Filter bar
+const filterBy = document.getElementById('filter-by');
+const filterRole = document.getElementById('filter-role');
+const searchBar = document.getElementById('search-employee');
+const employeesContaioner = document.getElementById('employees-container');
+
 // 2. EVENT LISTENERS  ----------------------------------------------------------------------
 
 // 2.1 Change height of the add employee form
 showAddEmployeeFormButton.addEventListener('click', changeHeightAddEmployeeForm);
 addEmployeeFormSubmitButton.addEventListener('submit', addNewEmployee);
+document.querySelectorAll('.filter').forEach(select => {select.addEventListener('change', filterEmployees);})
+searchBar.addEventListener('input', filterEmployees);
 
 // 3. OTHERS  -------------------------------------------------------------------------------
 
@@ -55,7 +63,7 @@ function showNotification(category, message){
 
     setTimeout(() => {
         notification.style.transform = 'translate(-50%, -200%)';
-    }, 5000);
+    }, 3000);
 }
 
 // 4.2 Change height of the add employee form
@@ -102,7 +110,7 @@ function addNewEmployee(event){
     const county = addEmployeeFormCountyInput.value;
     const phone = addEmployeeFormPhoneInput.value;
 
-    fetch('/employees', {
+    fetch('/employees/add', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json' // Indicates the type of content being sent
@@ -125,6 +133,7 @@ function addNewEmployee(event){
             if (data.category === 'Success'){
                 showNotification(data.category, data.message);
                 changeHeightAddEmployeeForm();
+                filterEmployees();
             }
             else if (data.category === 'Error'){
                 throw new Error(data.message)
@@ -133,4 +142,34 @@ function addNewEmployee(event){
         .catch(error => {
             showNotification('Error' ,error.message)
         })
+}
+
+// 4.5 Filter Employees
+function filterEmployees() {
+
+    const filterByValue = filterBy.value;
+    const filterRoleValue = filterRole.value;
+    const searchBarValue = searchBar.value;
+
+    fetch('/employees/filter', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json' // Indicates the type of content being sent
+        },
+        body: JSON.stringify({
+            filterBy: filterByValue,
+            filterRole: filterRoleValue,
+            searchBar: searchBarValue
+        })
+    })
+        .then(response => {
+            if (!response.ok){
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            employeesContaioner.innerHTML = html;
+        })
+        .catch(error => showNotification('Error', error.message))
 }

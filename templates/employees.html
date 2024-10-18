@@ -127,6 +127,30 @@
                     </button>
                 </div>
             </form>
+
+        <div id="filter-bar">
+            <input type="search" id="search-employee" placeholder="Cauta..." class="filter">
+
+            <select name="filter-by" id="filter-by" class="filter">
+                <option value="" disabled selected>Sortare dupa...</option>
+                <option value="asc">Alfabetic (A-Z)</option>
+                <option value="desc">Invers Alfabetic (Z-A)</option>
+                <option value="date_asc">Data Angajarii (Crescator)</option>
+                <option value="date_desc">Invers Data Angajarii (Descrescator)</option>
+            </select>
+
+            <select name="filter-role" id="filter-role" class="filter">
+                <option value="" disabled selected>Rol</option>
+                <option value="">Toate rolurile</option>
+                <option value="admin">Admin</option>
+                <option value="suport">Suport</option>
+                <option value="tehnic">Tehnic</option>
+            </select>
+        </div>
+
+        <div id="employees-container">
+            {% include 'partials/employees_list.html' %}
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/employees.js') }}"></script>

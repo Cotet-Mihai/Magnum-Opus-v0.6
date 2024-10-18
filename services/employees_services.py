@@ -3,7 +3,7 @@ from services.core_services import create_connection
 from datetime import datetime
 
 
-def get_all_employees_by_role(role: str):
+def get_all_employees_by_role(role: str = None):
     """
     Retrieve all employees from the database based on their role.
 
@@ -20,8 +20,13 @@ def get_all_employees_by_role(role: str):
         connection = create_connection()
         cursor = connection.cursor()
 
-        sql_query = 'SELECT * FROM Magnum_OPUS.users WHERE role = %s'
-        cursor.execute(sql_query, (role,))
+        if role is None:
+            sql_query = 'SELECT * FROM Magnum_OPUS.users'
+            cursor.execute(sql_query)
+
+        else:
+            sql_query = 'SELECT * FROM Magnum_OPUS.users WHERE role = %s'
+            cursor.execute(sql_query, (role,))
 
         result = cursor.fetchall()
 
@@ -99,7 +104,7 @@ def add_new_employee(user_data: dict):
             cursor.close()
             connection.close()
 
-def create_password(first_name, last_name, employmeny_date, role):
+def create_password(first_name: str, last_name:str, employmeny_date:str, role:str):
     """
     Generates a password based on the employee's first name, last name, employment date, and role.
 
@@ -136,3 +141,53 @@ def create_password(first_name, last_name, employmeny_date, role):
             symbol = '@'
 
     return f'{part1}{day}{month}{part2}{symbol}'
+
+def filter_users(filter_by: str, filter_role: str, search_bar: str = None):
+    connection = None
+    cursor = None
+
+    try:
+        connection = create_connection()
+        cursor = connection.cursor()
+
+        sql_query = "SELECT * FROM Magnum_OPUS.users"
+        conditions = []
+        params = []
+
+        if filter_role:
+            conditions.append("role = %s")
+            params.append(filter_role)
+
+        if search_bar:
+            # Filtrare după numele de familie și numele mic
+            conditions.append("(last_name LIKE %s OR first_name LIKE %s)")
+            search_pattern = f"%{search_bar}%"
+            params.extend([search_pattern, search_pattern])
+
+        if conditions:
+            sql_query += " WHERE " + " AND ".join(conditions)
+
+        cursor.execute(sql_query, tuple(params))
+        result = cursor.fetchall()
+
+        if filter_by:
+            match filter_by:
+                case 'asc':
+                    result = sorted(result, key=lambda user: user[1])  # Presupunând că user[1] este numele de familie
+                case 'desc':
+                    result = sorted(result, key=lambda user: user[1], reverse=True)
+                case 'date_asc':
+                    result = sorted(result, key=lambda user: user[6])  # Presupunând că user[6] este data
+                case 'date_desc':
+                    result = sorted(result, key=lambda user: user[6], reverse=True)
+
+        return result
+
+    except Exception as e:
+        print(f'Filter user Error: {e}')
+        return jsonify({'message': 'Filtrarea nu a putut fi efectuată.', 'category': 'Error'})
+
+    finally:
+        if connection is not None and cursor is not None:
+            cursor.close()
+            connection.close()
