@@ -1,0 +1,466 @@
+/*---------------------------------------------------- Body ---------------------------------------------------*/
+
+*{
+    font-family: Montserrat, sans-serif;
+}
+
+body{
+    display: flex;
+    background: var(--gray-level-2);
+
+    overflow: hidden;
+}
+
+#content-container{
+    width: 100%;
+}
+
+/*---------------------------------------------------- Info ---------------------------------------------------*/
+
+#info-container {
+    width: 100%;
+    height: 100px;
+
+    background: var(--gray-level-0);
+
+    display: flex;
+    position: relative;
+}
+
+#left-container{
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    color: var(--white);
+}
+
+#right-container{
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*---------------------------------------------------- Info Left ----------------------------------------------*/
+
+#title-container{
+    display: flex;
+    flex: 1;
+    align-items: flex-end;
+
+}
+
+#title-container p {
+    margin: 0  0  0 20px;
+    font-size: 26px;
+}
+
+#all-employees-number{
+    display: flex;
+
+    flex: 1;
+}
+
+.employees-number{
+    display: flex;
+    align-items: center;
+}
+
+.dot{
+    width: 5px;
+    height: 5px;
+
+    border-radius: 5px;
+    margin: 0  5px  0 20px;
+}
+
+#green-dot {
+    background: var(--green-level-1);
+}
+
+#red-dot{
+    background: var(--red-level-3);
+}
+
+#yellow-dot{
+    background: var(--yellow-level-0);
+}
+
+/*---------------------------------------------------- Info Right ---------------------------------------------*/
+
+#right-container button{
+    width: 140px;
+    height: 30px;
+
+    align-self: center;
+
+    margin-right: 20px;
+
+    background: var(--gray-level-2);
+    color: var(--white);
+
+    border: 0;
+    border-radius: 5px;
+
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/*---------------------------------------------------- Notification -------------------------------------------*/
+
+#notification-container{
+    position: absolute;
+
+    width: 500px;
+    height: 80px;
+
+    border-radius: 15px;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -200%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: transform 0.8s ease-in-out;
+}
+
+/*---------------------------------------------------- Add Employee -------------------------------------------*/
+
+#add-employeed-form{
+    width: 100%;
+    height: 0;
+
+    background: var(--red-level-1);
+
+    overflow: hidden;
+
+    display: flex;
+
+    transition: height 0.6s ease;
+}
+
+#left-container-add-employee{
+    flex: 1;
+    margin: 0  0  0 20px;
+
+}
+
+#right-container-add-employee button{
+    width: 100px;
+    height: 100px;
+
+    border-radius: 0;
+    border: 0;
+
+    background: var(--gray-level-0);
+
+    transition: background 0.3s ease;
+}
+
+#right-container-add-employee button img{
+    transition: filter 0.3s ease;
+}
+
+#top-container p {
+    color: var(--white);
+    font-size: 18px;
+}
+
+#bottom-container input{
+    border: 0;
+    border-radius: 3px;
+
+    margin-right: 10px;
+
+    background: var(--white);
+    color: var(--gray-level-0);
+    text-align: center;
+}
+
+#bottom-container input::placeholder{
+    color: var(--gray-level-1);
+    text-align: center;
+    opacity: 100%;
+}
+
+#bottom-container select{
+    border: 0;
+    border-radius: 3px;
+
+    margin-right: 10px;
+
+    background: var(--white);
+    color: var(--gray-level-0);
+    text-align: center;
+}
+
+/*---------------------------------------------------- Filter --------------------------------------------------*/
+
+#filter-bar{
+    width: calc(100% - 40px);
+    height: 50px;
+    display: flex;
+
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+
+}
+
+#employee-search{
+    width: 300px;
+}
+
+#filter-role{
+    margin-left: 10px;
+}
+
+#filter-date {
+    margin-left: 10px;
+}
+
+#filter-by{
+    margin-left: auto;
+}
+
+.filter{
+    background: var(--gray-level-3);
+
+    height: 35px;
+
+    border: 0;
+    border-radius: 4px;
+
+    padding: 8px 8px 8px 10px;
+
+    color: var(--white);
+
+    transition: outline 0.6s ease;
+}
+
+.filter::placeholder{
+    opacity: 100%;
+}
+
+/*--------------------------------------------------- Employees -----------------------------------------------*/
+
+#employees-container {
+    width: calc(100% - 40px);
+    height: calc(100vh - 180px);
+
+    margin-left: 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+
+    padding-right: 20px;
+    overflow: scroll;
+}
+
+.full-card-employee{
+    height: 350px;
+
+    display: flex;
+    overflow: hidden;
+
+    transition: width 0.6s ease;
+}
+
+.card-employee{
+    width: 250px;
+    height: 350px;
+
+    background: var(--gray-level-1);
+
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 20px;
+
+    overflow: hidden;
+}
+
+#info-employee{
+    width: 100%;
+    height: 100px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 0 20px black;
+
+    background: var(--red-level-1);
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+#info-employee h1{
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+
+    text-align: center;
+
+    color: var(--white);
+}
+
+#info-employee h3{
+    margin: 0;
+    padding: 0;
+
+    font-weight: bolder;
+}
+
+#another-info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-evenly;
+    align-items: center;
+
+    margin-top: auto;
+    margin-bottom: auto;
+
+    flex: 1;
+
+}
+
+.another-info-card{
+    display: flex;
+
+    color: var(--white);
+    font-weight: bold;
+    width: 200px;
+
+    align-items: center;
+    justify-content: start;
+
+}
+
+.another-info-card p{
+    margin-left: 20px;
+}
+
+#card-buttons{
+    width: 100%;
+    height: 0;
+    margin-top: auto;
+
+    display: flex;
+    justify-content: center;
+
+    transition: height 0.3s ease-in-out;
+}
+
+#card-buttons button{
+    flex: 1;
+
+    border: 0;
+
+    font-weight: bold;
+
+    transition: background 0.3s ease;
+}
+
+.edit-employee{
+    width: 0;
+    height: 350px;
+
+    background: var(--gradient-red);
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    transition: width 0.6s ease-in-out;
+}
+
+#title-edit{
+    width: 100%;
+    height: 100px;
+
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 0 20px black;
+
+
+    background: var(--gray-level-1);
+    color: var(--white);
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+}
+
+#edit-panel{
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+#edit-buttons{
+    margin-top: auto;
+
+    height: 50px;
+    width: 100%;
+    background: #7a7878;
+    display: flex;
+}
+
+#edit-buttons button{
+    flex: 1;
+    border: 0;
+    border-radius: 0;
+    font-weight: bold;
+
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+/*---------------------------------------------------- Hover --------------------------------------------------*/
+
+#right-container button:hover{
+    background: var(--green-level-0);
+    color: var(--gray-level-0);
+}
+
+#right-container-add-employee button:hover{
+    background: var(--green-level-0);
+}
+
+#right-container-add-employee button:hover img{
+    filter: brightness(0);
+}
+
+.filter:focus, .filter:hover{
+    outline: 1px solid var(--red-level-2);
+}
+
+.card-employee:hover #card-buttons{
+    height: 50px;
+}
+
+#edit-save:hover{
+    background: var(--green-level-0);
+    color: var(--white);
+}
+
+.edit-cancel:hover{
+    background: var(--gray-level-2);
+    color: var(--white);
+}
+
+#edit-delete:hover{
+    background: var(--red-level-1);
+    color: var(--white);
+}

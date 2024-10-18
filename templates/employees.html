@@ -10,6 +10,125 @@
 <body>
     {% include 'partials/navbar.html' %}
 
+    <div id="content-container">
+        <div id="info-container">
+            <div id="notification-container">
+                <p id="message-notification"></p>
+            </div>
 
+            <div id="left-container">
+                <div id="title-container">
+                    <p>PERSONAL</p>
+                </div>
+
+                <div id="all-employees-number">
+                    <div class="employees-number">
+                        <div class="dot" id="green-dot"></div>
+                        <p>Admin: {{ number_of_employees_grouped_by_role[0] }}</p>
+                    </div>
+
+                    <div class="employees-number">
+                        <div class="dot" id="red-dot"></div>
+                        <p>Suport: {{ number_of_employees_grouped_by_role[1] }}</p>
+                    </div>
+
+                    <div class="employees-number">
+                        <div class="dot" id="yellow-dot"></div>
+                        <p>Tehnic: {{ number_of_employees_grouped_by_role[2] }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="right-container">
+                <button id="add-employee-button">Adauga Personal</button>
+            </div>
+        </div>
+        <form id="add-employeed-form" onsubmit="addNewEmployee(event)">
+                <div id="left-container-add-employee">
+                    <div id="top-container">
+                        <p>Adauga un nou utilizator: </p>
+                    </div>
+
+                    <div id="bottom-container">
+                        <input type="text" id="add-employee-form-last-name" name="add-employee-form-last-name"
+                               placeholder="Nume" required>
+
+                        <input type="text" id="add-employee-form-first-name" name="add-employee-form-first-name"
+                               placeholder="Prenume" required>
+
+                        <input type="tel" id="add-employee-form-phone" name="add-employee-form-phone" placeholder="Numar de telefon" pattern="[0-9]{10}" required>
+
+                        <select name="add-employee-form-department" id="add-employee-form-department">
+                            <option value="" disabled selected>Departament</option>
+                            <option value="IT">IT</option>
+                        </select>
+
+                        <select name="add-employee-form-role" id="add-employee-form-role">
+                            <option value="" disabled selected>Rol</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Suport">Suport</option>
+                            <option value="Tehnic">Tehnic</option>
+                        </select>
+
+                        <select name="add-employee-form-county" id="add-employee-form-county">
+                            <option value="" disabled selected>Judet</option>
+                            <option value="Constanta">Constanta</option>
+                            <option value="Bucuresti">Bucuresti</option>
+                            <option value="Alba">Alba</option>
+                            <option value="Arad">Arad</option>
+                            <option value="Arges">Arges</option>
+                            <option value="Bacau">Bacau</option>
+                            <option value="Bihor">Bihor</option>
+                            <option value="Bistrita-Nasaud">Bistrita-Nasaud</option>
+                            <option value="Botosani">Botosani</option>
+                            <option value="Brasov">Brasov</option>
+                            <option value="Braila">Braila</option>
+                            <option value="Buzau">Buzau</option>
+                            <option value="Caras-Severin">Caras-Severin</option>
+                            <option value="Calarasi">Calarasi</option>
+                            <option value="Cluj">Cluj</option>
+                            <option value="Covasna">Covasna</option>
+                            <option value="Dambovita">Dambovita</option>
+                            <option value="Dolj">Dolj</option>
+                            <option value="Galati">Galati</option>
+                            <option value="Giurgiu">Giurgiu</option>
+                            <option value="Gorj">Gorj</option>
+                            <option value="Harghita">Harghita</option>
+                            <option value="Hunedoara">Hunedoara</option>
+                            <option value="Ialomita">Ialomita</option>
+                            <option value="Iasi">Iasi</option>
+                            <option value="Ilfov">Ilfov</option>
+                            <option value="Maramures">Maramures</option>
+                            <option value="Mehedinti">Mehedinti</option>
+                            <option value="Mures">Mures</option>
+                            <option value="Neamt">Neamt</option>
+                            <option value="Olt">Olt</option>
+                            <option value="Prahova">Prahova</option>
+                            <option value="Salaj">Salaj</option>
+                            <option value="Satu Mare">Satu Mare</option>
+                            <option value="Sibiu">Sibiu</option>
+                            <option value="Suceava">Suceava</option>
+                            <option value="Teleorman">Teleorman</option>
+                            <option value="Timis">Timis</option>
+                            <option value="Tulcea">Tulcea</option>
+                            <option value="Valcea">Valcea</option>
+                            <option value="Vaslui">Vaslui</option>
+                            <option value="Vrancea">Vrancea</option>
+                        </select>
+
+                        <input type="date" id="add-employee-form-date" name="add-employee-form-date">
+
+                    </div>
+                </div>
+
+                <div id="right-container-add-employee">
+                    <button id="submit-add-employee-button">
+                        <img src="{{ url_for('static', filename='img/icons/play_green.png') }}" alt="Execute button" width="80px">
+                    </button>
+                </div>
+            </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/employees.js') }}"></script>
 </body>
 </html>

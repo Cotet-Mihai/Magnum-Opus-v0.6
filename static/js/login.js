@@ -1,7 +1,7 @@
 document.getElementById('login-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevents the default form submission behavior
 
-    // Retrieves the username and password values from the input fields
+    // Retrieves the username and password
     const usernameInput = document.getElementById('username-input');
     const passwordInput = document.getElementById('password-input');
 
