@@ -15,19 +15,50 @@ const addEmployeeFormCountyInput = document.getElementById('add-employee-form-co
 const addEmployeeFormPhoneInput = document.getElementById('add-employee-form-phone');
 const addEmployeeFormSubmitButton = document.getElementById('submit-add-employee-button');
 
+// 1.3 Notification
+const notification = document.getElementById('notification-container');
+const notificationMessage = document.getElementById('notification-message');
+
 // 2. EVENT LISTENERS  ----------------------------------------------------------------------
 
 // 2.1 Change height of the add employee form
 showAddEmployeeFormButton.addEventListener('click', changeHeightAddEmployeeForm);
 addEmployeeFormSubmitButton.addEventListener('submit', addNewEmployee);
 
-// 3. OTHERS
+// 3. OTHERS  -------------------------------------------------------------------------------
+
 // 3.1 Set date to curent date
 addEmployeeFormInputDate.value = new Date().toISOString().split('T')[0];
 
 // 4. FUNCTIONS  ----------------------------------------------------------------------------
 
-// 4.1 Change height of the add employee form
+// 4.1 Show Notification
+function showNotification(category, message){
+    let backgroundColor;
+
+    switch (category) {
+        case 'Success':
+            backgroundColor = 'var(--green-level-1)';
+            break;
+        case 'Error':
+            backgroundColor = 'var(--red-level-3)';
+            break;
+        case 'Info':
+            backgroundColor = 'var(--yellow-level-0)';
+            break;
+    }
+
+    notification.style.background = backgroundColor;
+    notificationMessage.innerText = message;
+
+    notification.style.transform = 'translate(-50%, -50%)';
+
+    setTimeout(() => {
+        notification.style.transform = 'translate(-50%, -200%)';
+    }, 5000);
+}
+
+// 4.2 Change height of the add employee form
 function changeHeightAddEmployeeForm() {
     if (addEmployeeForm.style.height === '' || addEmployeeForm.style.height === '0px') {
         addEmployeeForm.style.height = '100px';  // Expand the form
@@ -41,7 +72,7 @@ function changeHeightAddEmployeeForm() {
     }
 }
 
-// 4.2 Clear form inputs
+// 4.3 Clear form inputs
 function deleteElementsValue() {
     setTimeout(() => {
         allAddEmployeeFormElements.forEach(element => {
@@ -58,7 +89,7 @@ function deleteElementsValue() {
     }, 500);
 }
 
-// 4.3 Add new employee
+// 4.4 Add new employee
 function addNewEmployee(event){
     event.preventDefault(); //Prevent the form from submitting normaly
 
@@ -92,13 +123,14 @@ function addNewEmployee(event){
         })
         .then(data => {
             if (data.category === 'Success'){
-                console.log(data.message)
+                showNotification(data.category, data.message);
+                changeHeightAddEmployeeForm();
             }
             else if (data.category === 'Error'){
                 throw new Error(data.message)
             }
         })
         .catch(error => {
-            console.log(error.message)
+            showNotification('Error' ,error.message)
         })
 }
