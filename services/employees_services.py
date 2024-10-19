@@ -7,7 +7,7 @@ def get_all_employees_by_role(role: str = None):
     """
     Retrieve all employees from the database based on their role.
 
-    :param role: The role of the employees to be fetched from the database.
+    :param role: The role of the employees to be fetched from the database. If None, fetches all employees.
     :return: A list of tuples containing employee data if employees with the specified role exist.
 
     :raises ValueError: If no employees are found for the specified role.
@@ -41,6 +41,46 @@ def get_all_employees_by_role(role: str = None):
 
     except Exception as e:
         print(f'Exception: {e}')
+
+    finally:
+        if connection is not None and cursor is not None:
+            cursor.close()
+            connection.close()
+
+def get_employee_by_id(employee_id: int):
+    """
+    Retrieve an employee from the database based on their ID.
+
+    :param employee_id: The ID of the employee to be fetched from the database.
+    :return: A tuple containing the employee data if an employee with the specified ID exists.
+
+    :raises ValueError: If no employee is found for the specified ID.
+    :raises Exception: For any other unexpected errors during the database operation.
+    """
+    connection = None
+    cursor = None
+
+    try:
+        connection = create_connection()
+        cursor = connection.cursor()
+
+
+        sql_query = ('SELECT * FROM Magnum_OPUS.users WHERE ID = %s')
+        cursor.execute(sql_query, (employee_id,))
+
+        result = cursor.fetchone()
+
+        if result:
+            return result
+
+        else:
+            raise ValueError ('Result is empty')
+
+    except ValueError as ve:
+        print(f'Fail to find employee by ID: {ve}')
+
+    except Exception as e:
+        print(f'Get employee by id Error: {e}')
 
     finally:
         if connection is not None and cursor is not None:
@@ -143,6 +183,18 @@ def create_password(first_name: str, last_name:str, employmeny_date:str, role:st
     return f'{part1}{day}{month}{part2}{symbol}'
 
 def filter_users(filter_by: str, filter_role: str, search_bar: str = None):
+    """
+    Filters users from the database based on role, name, and sorting criteria.
+
+    :param filter_by: Sorting criteria. Can be 'asc' (ascending by name), 'desc' (descending by name),
+                      'date_asc' (ascending by date), or 'date_desc' (descending by date).
+    :param filter_role: The role of the user to filter by. Example: 'admin', 'user', etc.
+    :param search_bar: Optional search term for filtering by last name or first name.
+                       If specified, it will search for users whose names contain this term.
+    :return: A list of users filtered and sorted based on the specified criteria.
+    :raises: Exception if an error occurs during database interaction.
+    """
+
     connection = None
     cursor = None
 
@@ -186,6 +238,39 @@ def filter_users(filter_by: str, filter_role: str, search_bar: str = None):
     except Exception as e:
         print(f'Filter user Error: {e}')
         return jsonify({'message': 'Filtrarea nu a putut fi efectuată.', 'category': 'Error'})
+
+    finally:
+        if connection is not None and cursor is not None:
+            cursor.close()
+            connection.close()
+
+def delete_user(user_id):
+    connection = None
+    cursor = None
+
+    try:
+        connection = create_connection()
+        cursor = connection.cursor()
+
+        user = get_employee_by_id(user_id)
+
+        if not user:
+            raise ValueError(f'User with ID {user_id} does not exist.')
+
+        sql_query = 'DELETE FROM Magnum_OPUS.users WHERE ID = %s'
+        cursor.execute(sql_query, (user_id,))
+        connection.commit()
+
+        return jsonify({'message': f'Utilizatorul {user[1]} {user[2]} a fost sters cu succes!',
+                        'category': 'Success'}), 200
+
+    except ValueError as ve:
+        return jsonify({'message': f'{ve}',
+                        'category': 'Error'}), 404
+
+    except Exception as e:
+        return jsonify({'message': {e},
+                        'category': 'Error'}), 500
 
     finally:
         if connection is not None and cursor is not None:

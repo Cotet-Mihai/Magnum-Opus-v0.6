@@ -1,6 +1,6 @@
 {% for employee in employees %}
-                <div class="full-card-employee">
-                    <div class="card-employee" data-user-id="{{ employee[0] }}">
+                <div class="full-card-employee" data-user-id="{{ employee[0] }}">
+                    <div class="card-employee">
                         <div id="info-employee">
                             <h1>{{ employee[1] + ' ' + employee[2] }}</h1>
                             <h3>{{ employee[5] }}</h3>
@@ -93,7 +93,6 @@
                         </div>
                         <div id="edit-buttons">
                             <button class="edit-save">Salveaza</button>
-                            <button class="edit-cancel">Anuleaza</button>
                             <button class="edit-delete">Sterge</button>
                         </div>
                     </div>

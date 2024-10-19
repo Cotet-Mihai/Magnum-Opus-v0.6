@@ -32,6 +32,9 @@ showAddEmployeeFormButton.addEventListener('click', changeHeightAddEmployeeForm)
 addEmployeeFormSubmitButton.addEventListener('submit', addNewEmployee);
 document.querySelectorAll('.filter').forEach(select => {select.addEventListener('change', filterEmployees);})
 searchBar.addEventListener('input', filterEmployees);
+document.addEventListener('DOMContentLoaded', () => {
+    filterEmployees(); // Execută căutarea când pagina este încărcată
+});
 
 // 3. OTHERS  -------------------------------------------------------------------------------
 
@@ -170,6 +173,59 @@ function filterEmployees() {
         })
         .then(html => {
             employeesContaioner.innerHTML = html;
+            attachEditListeners();
         })
         .catch(error => showNotification('Error', error.message))
 }
+
+function attachEditListeners(){
+    const employeeCard = document.querySelectorAll('.full-card-employee');
+
+    employeeCard.forEach(card => {
+        const editEmployee = card.querySelector('.edit-employee');
+        const editButton = card.querySelector('.card-edit-button');
+        const cancelEdit = card.querySelector('.edit-cancel');
+        const deleteEdit = card.querySelector('.edit-delete');
+
+        const userID = card.dataset.userId;
+
+        editButton.addEventListener('click', () => {
+            if (editEmployee.style.width === '0px' || editEmployee.style.width === ''){
+                editEmployee.style.width = '250px'
+            }
+            else {
+                editEmployee.style.width = '0px'
+            }
+        })
+
+        deleteEdit.addEventListener('click', () => {
+            const confirmation = confirm("Sigur vrei sa stergi acest utilizator ?")
+
+            if (confirmation) {
+                fetch('employees/delete', {
+                    method: 'DELETE',
+                    headers: {
+                    'Content-Type': 'application/json' // Indicates the type of content being sent
+                    },
+                    body: JSON.stringify({userID: userID})
+                })
+                .then(response => {
+                    if (!response.ok){
+                        throw new Error('Network response was not ok')
+                    }
+                    return response.json()
+                })
+                .then(data => {
+                    showNotification(data.category, data.message);
+                    filterEmployees();
+                })
+                .catch(error => {
+                    showNotification('Error', error.message)
+                })
+            }
+        })
+    })
+}
+
+
+

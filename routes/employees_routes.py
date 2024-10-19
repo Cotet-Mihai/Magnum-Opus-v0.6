@@ -1,10 +1,9 @@
 from flask import Blueprint, session, redirect, url_for, render_template, request
 from services.core_services import handle_dashboard_access
-from services.employees_services import get_all_employees_by_role, create_password, add_new_employee, filter_users
+from services.employees_services import get_all_employees_by_role, create_password, add_new_employee, filter_users, \
+    delete_user
 
 employees_bp = Blueprint('employees', __name__)
-
-
 
 
 @employees_bp.route('/employees')
@@ -26,6 +25,7 @@ def employees_admin():
     else:
         return redirect(url_for('auth.auth'))
 
+
 @employees_bp.route('/employees/add', methods=['POST'])
 def add_employee():
     new_employee_data = {'last_name': request.json.get('lastName'),
@@ -41,6 +41,7 @@ def add_employee():
 
     return add_new_employee(new_employee_data)
 
+
 @employees_bp.route('/employees/filter', methods=['POST'])
 def filter_employees():
     filter_by = request.json.get('filterBy')
@@ -50,3 +51,10 @@ def filter_employees():
     employees_list = filter_users(filter_by, filter_role, search_bar)
 
     return render_template('partials/employees_list.html', employees=employees_list)
+
+
+@employees_bp.route('/employees/delete', methods=['DELETE'])
+def delete_employee():
+    user_id = request.json.get('userID')
+
+    return delete_user(user_id)

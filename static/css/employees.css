@@ -450,17 +450,12 @@ body{
     height: 50px;
 }
 
-#edit-save:hover{
-    background: var(--green-level-0);
-    color: var(--white);
+.edit-save:hover{
+    background: var(--gray-level-1);
+    color: var(--green-level-1);
 }
 
-.edit-cancel:hover{
-    background: var(--gray-level-2);
-    color: var(--white);
-}
-
-#edit-delete:hover{
-    background: var(--red-level-1);
-    color: var(--white);
+.edit-delete:hover{
+    background: var(--gray-level-1);
+    color: var(--red-level-3);
 }
