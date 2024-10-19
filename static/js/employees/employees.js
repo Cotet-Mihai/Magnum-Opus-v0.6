@@ -184,21 +184,28 @@ function attachEditListeners(){
     employeeCard.forEach(card => {
         const editEmployee = card.querySelector('.edit-employee');
         const editButton = card.querySelector('.card-edit-button');
-        const cancelEdit = card.querySelector('.edit-cancel');
-        const deleteEdit = card.querySelector('.edit-delete');
+        const deleteButton = card.querySelector('.edit-delete');
+        const saveButton = card.querySelector('.edit-save');
 
         const userID = card.dataset.userId;
+        const editPanelAllInputs = card.querySelectorAll('.edit-input');
 
         editButton.addEventListener('click', () => {
             if (editEmployee.style.width === '0px' || editEmployee.style.width === ''){
-                editEmployee.style.width = '250px'
+                editEmployee.style.width = '250px';
+                editPanelAllInputs.forEach(input => input.disabled = false);
+                saveButton.disabled = false;
+                deleteButton.disabled = false;
             }
             else {
-                editEmployee.style.width = '0px'
+                editEmployee.style.width = '0px';
+                editPanelAllInputs.forEach(input => input.disabled = true);
+                saveButton.disabled = true;
+                deleteButton.disabled = true;
             }
         })
 
-        deleteEdit.addEventListener('click', () => {
+        deleteButton.addEventListener('click', () => {
             const confirmation = confirm("Sigur vrei sa stergi acest utilizator ?")
 
             if (confirmation) {
@@ -222,6 +229,71 @@ function attachEditListeners(){
                 .catch(error => {
                     showNotification('Error', error.message)
                 })
+            }
+        })
+
+        saveButton.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            const lastName = card.querySelector('.edit-employee #edit-last-name');
+            const firstName = card.querySelector('.edit-employee #edit-first-name');
+            const department = card.querySelector('.edit-employee #edit-departmnet');
+            const role = card.querySelector('.edit-employee #edit-role');
+            const date = card.querySelector('.edit-employee #edit-date');
+            const county = card.querySelector('.edit-employee #edit-county');
+            const phone = card.querySelector('.edit-employee #edit-phone');
+
+            console.log({
+                ID: userID,
+                lastName: lastName.value,
+                firstName: firstName.value,
+                department: department.value,
+                role: role.value,
+                date: date.value,
+                county: county.value,
+                phone: phone.value
+            });
+
+            const confirmation = confirm("Sigur vrei sa editezi ?")
+
+            if (confirmation) {
+                fetch('/employees/edit', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ID: userID,
+                        lastName: lastName.value,
+                        firstName: firstName.value,
+                        department: department.value,
+                        role: role.value,
+                        date: date.value,
+                        county: county.value,
+                        phone: phone.value
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok){
+                            console.log(response)
+                            throw new Error("Network response was not ok")
+                        }
+                        return response.json()
+                    })
+                    .then(data => {
+                        showNotification(data.category, data.message);
+
+                        editEmployee.style.width = '0px';
+                        editPanelAllInputs.forEach(input => input.disabled = true);
+                        saveButton.disabled = true;
+                        deleteButton.disabled = true;
+                        setTimeout(() => {
+                            filterEmployees();
+                        }, 700)
+
+                    })
+                    .catch(error => {
+                        showNotification('Error', error.message)
+                    })
             }
         })
     })

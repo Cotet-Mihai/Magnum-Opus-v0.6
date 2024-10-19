@@ -32,19 +32,22 @@
                             <h1>Editeza</h1>
                         </div>
                         <div id="edit-panel">
-                            <input type="text" placeholder="Username">
-                            <select name="edit-departmnet" id="edit-departmnet">
+                            <div id="username-container">
+                                <input type="text" placeholder="Nume" class="edit-input" id="edit-last-name" disabled>
+                                <input type="text" placeholder="Prenume" class="edit-input" id="edit-first-name" disabled>
+                            </div>
+                            <select name="edit-departmnet" id="edit-departmnet" class="edit-input" disabled>
                                 <option value="" disabled selected>Departament</option>
                                 <option value="IT">IT</option>
                             </select>
-                            <select name="edit-role" id="edit-role">
+                            <select name="edit-role" id="edit-role" class="edit-input" disabled>
                                 <option value="" disabled selected>Rol</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Suport">Suport</option>
                                 <option value="Tehnic">Tehnic</option>
                             </select>
-                            <input type="date">
-                            <select name="edit-county" id="edit-county">
+                            <input type="date" class="edit-input" id="edit-date" disabled>
+                            <select name="edit-county" id="edit-county" class="edit-input" disabled>
                                 <option value="" disabled selected>Judet</option>
                                 <option value="Constanta">Constanta</option>
                                 <option value="Bucuresti">Bucuresti</option>
@@ -89,11 +92,11 @@
                                 <option value="Vaslui">Vaslui</option>
                                 <option value="Vrancea">Vrancea</option>
                             </select>
-                            <input type="tel" id="phone" name="phone" placeholder="Numar de telefon" pattern="[0-9]{10}">
+                            <input type="tel" id="edit-phone" name="phone" placeholder="Numar de telefon" pattern="[0-9]{10}" class="edit-input" disabled>
                         </div>
                         <div id="edit-buttons">
-                            <button class="edit-save">Salveaza</button>
-                            <button class="edit-delete">Sterge</button>
+                            <button class="edit-save" disabled>Salveaza</button>
+                            <button class="edit-delete" disabled>Sterge</button>
                         </div>
                     </div>
                 </div>

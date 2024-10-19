@@ -28,11 +28,11 @@ def verify():
 
     user_data = verify_auth(username, password)
 
-    if user_data:
-        session['user'] = user_data  # Saves user data in the session
+    if user_data:  # Saves user data in the session
 
         # Check the user's role
         if user_data[5] == 'Admin':
+            session['user'] = user_data
             return redirect(url_for('dashboard.dashboard_admin'))  # Redirects to the admin dashboard
 
         else:

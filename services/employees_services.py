@@ -1,6 +1,7 @@
 from flask import jsonify
 from services.core_services import create_connection
 from datetime import datetime
+from mysql.connector import Error as MySQLInterfaceError
 
 
 def get_all_employees_by_role(role: str = None):
@@ -244,7 +245,16 @@ def filter_users(filter_by: str, filter_role: str, search_bar: str = None):
             cursor.close()
             connection.close()
 
-def delete_user(user_id):
+def delete_user(user_id: int):
+    """
+    Deletes a user from the database.
+
+    :param user_id: The ID of the user to be deleted.
+    :return: A JSON object containing a success or error message, along with an HTTP status code.
+    :raises ValueError: If the user with the specified ID does not exist in the database.
+    :raises Exception: If an error occurs during the SQL query execution or database connection.
+    """
+
     connection = None
     cursor = None
 
@@ -270,6 +280,101 @@ def delete_user(user_id):
 
     except Exception as e:
         return jsonify({'message': {e},
+                        'category': 'Error'}), 500
+
+    finally:
+        if connection is not None and cursor is not None:
+            cursor.close()
+            connection.close()
+
+def edit_user(new_data_user: dict):
+    """
+    Updates an existing user's details in the database based on provided data.
+
+    :param new_data_user: A dictionary containing the user data to be updated.
+                            Must include 'ID', and may include 'last_name', 'first_name',
+                            'department', 'role', 'date', 'county', and 'phone'.
+    :type new_data_user: dict
+    :raises ValueError: If the user with the specified ID is not found.
+    :return: A JSON response indicating the result of the operation, along with an HTTP status code.
+    :rtype: tuple (flask.Response, int)
+
+    The function constructs an SQL UPDATE query dynamically based on the fields that are provided
+    in the new_data_user dictionary. If a field is empty or not provided, it is ignored.
+    If the user is successfully updated, a success message is returned;
+    otherwise, an error message is returned.
+    """
+    connection = None
+    cursor = None
+
+    print(new_data_user)
+
+    try:
+        connection = create_connection()
+        cursor = connection.cursor()
+
+        user = get_employee_by_id(new_data_user['ID'])
+
+        if not user:
+            raise ValueError('Utilizatorul nu a fost gasit.')
+
+        sql_query = 'UPDATE Magnum_OPUS.users SET'
+        updates = []
+        params = []
+
+        if new_data_user['last_name']:
+            updates.append(' last_name = %s')
+            params.append(new_data_user['last_name'])
+
+        if new_data_user['first_name']:
+            updates.append(' first_name = %s')
+            params.append(new_data_user['first_name'])
+
+        if new_data_user['department']:
+            updates.append(' department = %s')
+            params.append(new_data_user['department'])
+
+        if new_data_user['role']:
+            updates.append(' role = %s')
+            params.append(new_data_user['role'])
+
+        if new_data_user['date']:
+            updates.append(' employment_date = %s')
+            params.append(new_data_user['date'])
+
+        if new_data_user['county']:
+            updates.append(' county = %s')
+            params.append(new_data_user['county'])
+
+        if new_data_user['phone']:
+            updates.append(' phone_number = %s')
+            params.append(new_data_user['phone'])
+
+        if updates:
+            sql_query += ', '.join(updates)
+            sql_query += ' WHERE ID = %s'
+            params.append(new_data_user['ID'])
+
+            cursor.execute(sql_query, params)
+            connection.commit()
+
+            return jsonify({'message': f'Utilizatorul cu ID-ul: {user[0]} a fost editat cu succes!',
+                            'category': f'Success'}), 200
+
+        else:
+            return jsonify({'message': f'Nu a fost gasit nici un camp pentru a fii editat.',
+                            'category': 'Info'}), 200
+
+    except ValueError as ve:
+        return jsonify({'message': f'{ve}',
+                        'category': 'Error'}), 404
+
+    except MySQLInterfaceError as db_err:
+        return jsonify({'message': str(db_err),
+                        'category': 'Error'}), 200
+
+    except Exception as e:
+        return jsonify({'message': f'{e}',
                         'category': 'Error'}), 500
 
     finally:

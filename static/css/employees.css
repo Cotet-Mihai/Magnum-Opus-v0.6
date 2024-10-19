@@ -407,6 +407,8 @@ body{
     flex-direction: column;
     justify-content: center;
     gap: 10px;
+
+    width: 90%;
 }
 
 #edit-buttons{
@@ -425,6 +427,20 @@ body{
     font-weight: bold;
 
     transition: color 0.3s ease, background 0.3s ease;
+}
+
+#username-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+#username-container input{
+    width: 45%;
+    text-align: center;
+}
+
+#username-container input::placeholder{
+    text-align: center;
 }
 
 /*---------------------------------------------------- Hover --------------------------------------------------*/

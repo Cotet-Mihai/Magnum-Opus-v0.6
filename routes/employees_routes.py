@@ -1,7 +1,7 @@
 from flask import Blueprint, session, redirect, url_for, render_template, request
 from services.core_services import handle_dashboard_access
 from services.employees_services import get_all_employees_by_role, create_password, add_new_employee, filter_users, \
-    delete_user
+    delete_user, edit_user
 
 employees_bp = Blueprint('employees', __name__)
 
@@ -37,8 +37,6 @@ def add_employee():
                          'county': request.json.get('county'),
                          'phone_number': request.json.get('phone')}
 
-    print(type(request.json.get('lastName')))
-
     return add_new_employee(new_employee_data)
 
 
@@ -58,3 +56,21 @@ def delete_employee():
     user_id = request.json.get('userID')
 
     return delete_user(user_id)
+
+
+@employees_bp.route('/employees/edit', methods=['PUT'])
+def edit_employee():
+    new_data_user = {
+        'ID': request.json.get('ID'),
+        'last_name': request.json.get('lastName'),
+        'first_name': request.json.get('firstName'),
+        'department': request.json.get('department'),
+        'role': request.json.get('role'),
+        'date': request.json.get('date'),
+        'county': request.json.get('county'),
+        'phone': request.json.get('phone')
+    }
+
+    print(new_data_user)
+
+    return edit_user(new_data_user)
