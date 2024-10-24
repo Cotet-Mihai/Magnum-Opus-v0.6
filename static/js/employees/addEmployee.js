@@ -1,4 +1,15 @@
+/**
+ * Class representing a controller for the employee form.
+ */
 export class EmployeeFormController {
+
+    /**
+     * Create an instance of EmployeeFormController.
+     * @param {HTMLElement} button - The button to toggle the form's visibility.
+     * @param {HTMLFormElement} form - The form for adding new employees.
+     * @param {Notification} notification - Notification system to display messages to the user.
+     * @param {CardEmployee} cardEmployee - The cardEmployee instance for managing employee cards.
+     */
     constructor(button, form, notification, cardEmployee) {
         this.button = button;
         this.form = form;
@@ -23,24 +34,39 @@ export class EmployeeFormController {
         this.setupEventListeners();
     }
 
+    /**
+     * Set up event listeners for form interactions.
+     */
     setupEventListeners() {
         this.button.addEventListener('click', () => this.updateFormSizeAndState());
         this.form.addEventListener('submit', (event) => this.addNewEmployee(event));
         this.department.addEventListener('change', () => this.syncSelectOptionsBetweenDepartmentAndRole());
     }
 
+    /**
+     * Set the current date in the date input field.
+     */
     setCurrentDate() {
         this.date.value = new Date().toISOString().split('T')[0];
     }
 
+    /**
+     * Disable all form elements.
+     */
     disableElements() {
         this.formElements.forEach(element => element.disabled = true);
     }
 
+    /**
+     * Enable all form elements.
+     */
     enableElements() {
         this.formElements.forEach(element => element.disabled = false);
     }
 
+    /**
+     * Reset the values of all form elements to their default state.
+     */
     resetElementsValue() {
         this.formElements.forEach(element => {
             if (element.type !== 'button') {
@@ -56,6 +82,9 @@ export class EmployeeFormController {
         this.syncSelectOptionsBetweenDepartmentAndRole();
     }
 
+    /**
+     * Synchronize the role select options based on the selected department.
+     */
     syncSelectOptionsBetweenDepartmentAndRole() {
         const options = {
             IT: [
@@ -75,6 +104,11 @@ export class EmployeeFormController {
         this.populateSelectOptions(this.role, options[this.department.value] || []);
     }
 
+    /**
+     * Populate the options for a select element.
+     * @param {HTMLSelectElement} selectElement - The select element to populate.
+     * @param {Object[]} options - The options to populate the select element with.
+     */
     populateSelectOptions(selectElement, options) {
         selectElement.innerHTML = '';
         const placeholder = document.createElement('option');
@@ -92,6 +126,9 @@ export class EmployeeFormController {
         });
     }
 
+    /**
+     * Update the size and state of the form based on its current state.
+     */
     updateFormSizeAndState() {
         if (this.form.style.height === '' || this.form.style.height === '0px') {
             this.form.style.height = '100px';
@@ -105,6 +142,10 @@ export class EmployeeFormController {
         }
     }
 
+    /**
+     * Handle the submission of the form to add a new employee.
+     * @param {Event} event - The form submit event.
+     */
     addNewEmployee(event) {
         event.preventDefault();
 
