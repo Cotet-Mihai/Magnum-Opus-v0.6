@@ -35,26 +35,31 @@ def verify():
      :return: Redirect to the dashboard according to the user's role.
      If the credentials are incorrect, it returns a JSON response with an error message and 401 status code.
      """
-    username = request.json.get('username')
-    password = request.json.get('password')
 
-    user_data = verify_auth(username, password)
+    try:
+        username = request.json.get('username')
+        password = request.json.get('password')
 
-    if user_data:
-        if user_data == 'not active':
-            return jsonify({'error_message': 'Acest cont nu este activ.'}), 401
+        user_data = verify_auth(username, password)
 
-        session['user'] = user_data
+        if user_data:
+            if user_data == 'not active':
+                raise ValueError('Acest cont nu este activ.')
 
-        # Check the user's role
-        if user_data[5] == 'Admin':
-            return redirect(url_for('dashboard.dashboard_admin'))  # Redirects to the admin dashboard
+            session['user'] = user_data
 
-        else:
-            return redirect(url_for('in_progress.in_progress'))  # Redirect if the page is not complete for their role
+            # Check the user's role
+            if user_data[5] == 'Admin':
+                return redirect(url_for('dashboard.dashboard_admin'))  # Redirects to the admin dashboard
 
-    # If the data is incorrect, it sends an error message
-    return jsonify({'error_message': 'Nume de utilizator sau parola incorecta'}), 401
+            else:
+                return redirect(url_for('in_progress.in_progress'))  # Redirect if the page is not complete for their role
+
+        # If the data is incorrect, it sends an error message
+        raise ValueError('Nume de utilizator sau parola incorecta')
+
+    except ValueError as ve:
+        return jsonify({'error_message': str(ve)}), 401
 
 
 @auth_bp.route('/logout')
