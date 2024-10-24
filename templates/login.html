@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Magnum OPUS</title>
     <link rel="icon" href={{ url_for('static', filename='img/logo_red.ico') }}>
-    <link rel="stylesheet" href={{ url_for('static', filename='css/colors.css') }}>
-    <link rel="stylesheet" href={{ url_for('static', filename='css/login.css') }}>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 
 <body>
@@ -39,6 +39,6 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/login.js') }}" defer></script>
 </body>
 </html>

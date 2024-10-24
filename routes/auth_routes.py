@@ -9,8 +9,20 @@ def auth():
     """
     Displays the login page.
 
-    :return: HTML response that renders the 'login.html' template.
+    Checks if the user is already logged in and redirects them
+    to the appropriate dashboard based on their role.
+
+    :return: HTML response that renders the 'login.html' template
+             if the user is not logged in; otherwise, redirects to
+             the corresponding dashboard.
+    :raises: None
     """
+    if 'user' in session:
+        if session['user'][5] == 'Admin':
+                return redirect(url_for('dashboard.dashboard_admin'))  # Redirects to the admin dashboard
+
+        else:
+            return redirect(url_for('in_progress.in_progress'))  # Redirect if the page is not complete for their role
 
     return render_template('login.html')
 
