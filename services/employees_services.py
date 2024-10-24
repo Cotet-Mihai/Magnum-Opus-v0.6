@@ -123,7 +123,7 @@ def add_new_employee(user_data: dict):
                   user_data["password"],
                   user_data["department"],
                   user_data["role"],
-                  user_data["employment_date"],
+                  user_data["date"],
                   user_data["county"],
                   user_data["phone_number"])
 
@@ -145,7 +145,7 @@ def add_new_employee(user_data: dict):
             cursor.close()
             connection.close()
 
-def create_password(first_name: str, last_name:str, employmeny_date:str, role:str):
+def create_password(first_name: str, last_name:str, date:str, role:str):
     """
     Generates a password based on the employee's first name, last name, employment date, and role.
 
@@ -169,8 +169,8 @@ def create_password(first_name: str, last_name:str, employmeny_date:str, role:st
     part1 = first_name[:2].lower()
     part2 = last_name[:2].upper()
 
-    day = datetime.strptime(employmeny_date, '%Y-%m-%d').day
-    month = datetime.strptime(employmeny_date, '%Y-%m-%d').month
+    day = datetime.strptime(date, '%Y-%m-%d').day
+    month = datetime.strptime(date, '%Y-%m-%d').month
 
     symbol = None
     match role:

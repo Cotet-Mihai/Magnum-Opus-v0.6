@@ -43,7 +43,7 @@
                 <button id="add-employee-button">Adauga Personal</button>
             </div>
         </div>
-        <form id="add-employeed-form" onsubmit="addNewEmployee(event)">
+        <form id="add-employeed-form">
                 <div id="left-container-add-employee">
                     <div id="top-container">
                         <p>Adauga un nou utilizator: </p>
@@ -153,6 +153,6 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/employees/employees.js') }}" defer></script>
+    <script type="module" src="{{ url_for('static', filename='js/employees/main.js') }}" defer></script>
 </body>
 </html>

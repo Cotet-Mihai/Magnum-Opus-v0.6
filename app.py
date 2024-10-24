@@ -1,4 +1,5 @@
 from flask import Flask
+
 from routes.dashboard_routes import dashboard_bp
 from routes.employees_routes import employees_bp
 from routes.in_progress_routes import in_progress_bp

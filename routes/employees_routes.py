@@ -30,10 +30,10 @@ def employees_admin():
 def add_employee():
     new_employee_data = {'last_name': request.json.get('lastName'),
                          'first_name': request.json.get('firstName'),
-                         'password': create_password(request.json.get('lastName'), request.json.get('firstName'), request.json.get('employmentDate'), request.json.get('role')),
+                         'password': create_password(request.json.get('lastName'), request.json.get('firstName'), request.json.get('date'), request.json.get('role')),
                          'department': request.json.get('department'),
                          'role': request.json.get('role'),
-                         'employment_date': request.json.get('employmentDate'),
+                         'date': request.json.get('date'),
                          'county': request.json.get('county'),
                          'phone_number': request.json.get('phone')}
 
