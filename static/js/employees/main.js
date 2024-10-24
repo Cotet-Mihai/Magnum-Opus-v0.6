@@ -10,10 +10,11 @@ const notification = new Notification(notificationDiv, notificationMessage);
 
 const filterBy = document.getElementById('filter-by');  // Filter by
 const filterRole = document.getElementById('filter-role');  // Filter role
+const filterDepartment = document.getElementById('filter-department');  // Filter role
 const searchBar = document.getElementById('search-employee');  // Search bar
 const employeesContainer = document.getElementById('employees-container');  // Employees Container
 
-const cardEmployees = new CardEmployee(filterBy, filterRole, searchBar, employeesContainer, notification);
+const cardEmployees = new CardEmployee(filterBy, filterRole, filterDepartment, searchBar, employeesContainer, notification);
 
 const AddEmployeeFormButton = document.getElementById('add-employee-button');  // The button that displays the form
 const addEmployeeForm = document.getElementById('add-employeed-form');  // Form

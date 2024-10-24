@@ -7,6 +7,12 @@
                         </div>
 
                         <div id="another-info">
+                            {% if employee[9] == 0 %}
+                            	<div id="active-container" class="another-info-card">
+                                    <img src="{{ url_for('static', filename='img/icons/danger_yellow.png') }}" alt="Department" width="30px" height="30px">
+                                    <p>Cont Informativ</p>
+                                </div>
+                            {% endif %}
                             <div id="department-container" class="another-info-card">
                                 <img src="{{ url_for('static', filename='img/icons/department_red.png') }}" alt="Department" width="30px" height="30px">
                                 <p>{{ employee[4] }}</p>

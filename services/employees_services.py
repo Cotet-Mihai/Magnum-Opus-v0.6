@@ -115,8 +115,8 @@ def add_new_employee(user_data: dict):
         connection = create_connection()
         cursor = connection.cursor()
 
-        sql_query = ('INSERT INTO Magnum_OPUS.users (last_name, first_name, password, department, role, employment_date, county, phone_number) '
-                     'VALUES (%s, %s, %s, %s, %s, %s, %s, %s)')
+        sql_query = ('INSERT INTO Magnum_OPUS.users (last_name, first_name, password, department, role, employment_date, county, phone_number, its_active) '
+                     'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)')
 
         values = (user_data["last_name"],
                   user_data["first_name"],
@@ -125,7 +125,8 @@ def add_new_employee(user_data: dict):
                   user_data["role"],
                   user_data["date"],
                   user_data["county"],
-                  user_data["phone_number"])
+                  user_data["phone_number"],
+                  user_data["its_active"])
 
         cursor.execute(sql_query, values)
 
@@ -183,13 +184,14 @@ def create_password(first_name: str, last_name:str, date:str, role:str):
 
     return f'{part1}{day}{month}{part2}{symbol}'
 
-def filter_users(filter_by: str, filter_role: str, search_bar: str = None):
+def filter_users(filter_by: str, filter_role: str, filter_department: str, search_bar: str = None):
     """
     Filters users from the database based on role, name, and sorting criteria.
 
     :param filter_by: Sorting criteria. Can be 'asc' (ascending by name), 'desc' (descending by name),
                       'date_asc' (ascending by date), or 'date_desc' (descending by date).
-    :param filter_role: The role of the user to filter by. Example: 'admin', 'user', etc.
+    :param filter_role: The role of the user to filter by.
+    :param filter_department: The department of the user to filter by.
     :param search_bar: Optional search term for filtering by last name or first name.
                        If specified, it will search for users whose names contain this term.
     :return: A list of users filtered and sorted based on the specified criteria.
@@ -210,6 +212,10 @@ def filter_users(filter_by: str, filter_role: str, search_bar: str = None):
         if filter_role:
             conditions.append("role = %s")
             params.append(filter_role)
+
+        if filter_department:
+            conditions.append("department = %s")
+            params.append(filter_department)
 
         if search_bar:
             # Filtrare după numele de familie și numele mic
@@ -239,6 +245,45 @@ def filter_users(filter_by: str, filter_role: str, search_bar: str = None):
     except Exception as e:
         print(f'Filter user Error: {e}')
         return jsonify({'message': 'Filtrarea nu a putut fi efectuată.', 'category': 'Error'})
+
+    finally:
+        if connection is not None and cursor is not None:
+            cursor.close()
+            connection.close()
+
+def get_all_values_from_a_column(column):
+    """
+    Gets distinct values from the specified column in the users table.
+
+    :param column: The name of the column to retrieve values from. Must be 'department' or 'role'.
+    :raises ValueError: If the column name is invalid.
+    :return: A list of distinct values from the specified column.
+    """
+    connection = None
+    cursor = None
+
+    allowed_columns = ['department', 'role']
+
+    if column not in allowed_columns:
+        raise ValueError(f'Invalid column name: {column}')
+
+    try:
+        connection = create_connection()
+        cursor = connection.cursor()
+
+        sql_query = f'SELECT DISTINCT {column} FROM Magnum_OPUS.users'
+
+        cursor.execute(sql_query)
+
+        result = cursor.fetchall()
+
+        return [row[0] for row in result]
+
+    except ValueError as ve:
+        print(f'Get all values from a column Error: {ve}')
+
+    except Exception as e:
+        print(f'Get all values from a column Error: {e}')
 
     finally:
         if connection is not None and cursor is not None:

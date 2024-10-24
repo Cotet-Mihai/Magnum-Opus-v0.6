@@ -59,7 +59,7 @@ export class EmployeeFormController {
     syncSelectOptionsBetweenDepartmentAndRole() {
         const options = {
             IT: [
-                { value: 'Manager', text: 'Manager' },
+                { value: 'Manager IT', text: 'Manager IT' },
                 { value: 'Suport', text: 'Suport' },
                 { value: 'Tehnic', text: 'Tehnic' }
             ],
@@ -108,6 +108,13 @@ export class EmployeeFormController {
     addNewEmployee(event) {
         event.preventDefault();
 
+        const userResponse = confirm(
+            "ATENTIE!\n Aceasta optiune nu poate fii modificata mai tarziu\n\n" +
+            "Dorești să activezi acest cont?\n\n" +
+            "Apasă OK pentru a activa contul.\n" +
+            "Apasă Cancel pentru a-l adăuga ca informație fără cont."
+        );
+
         fetch('employees/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -118,7 +125,8 @@ export class EmployeeFormController {
                 role: this.role.value,
                 date: this.date.value,
                 county: this.county.value,
-                phone: this.phone.value
+                phone: this.phone.value,
+                itsActive: userResponse ? 1 : 0
             })
         })
             .then(response => {

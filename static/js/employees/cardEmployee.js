@@ -1,36 +1,110 @@
+/**
+ * Class representing an employee card management system.
+ */
 export class CardEmployee {
     /**
-     * Initializes a new instance of the CardEmployee class.
-     *
-     * @param {HTMLElement} filterBy - The filter element for employee attributes.
-     * @param {HTMLElement} filterRole - The filter element for employee roles.
-     * @param {HTMLElement} searchBar - The search input element for employee names.
-     * @param {HTMLElement} employeesContainer - The container element where employee cards are displayed.
-     * @param {Notification} notification - The notification handler for displaying messages.
+     * Create a CardEmployee instance.
+     * @param {HTMLSelectElement} filterBy - Element for filtering by general criteria.
+     * @param {HTMLSelectElement} filterRole - Element for filtering by employee role.
+     * @param {HTMLSelectElement} filterDepartment - Element for filtering by department.
+     * @param {HTMLInputElement} searchBar - Input field for searching employees.
+     * @param {HTMLElement} employeesContainer - Container element for displaying employee cards.
+     * @param {Notification} notification - Notification system to display messages to the user.
      */
-    constructor(filterBy, filterRole, searchBar, employeesContainer, notification) {
+    constructor(filterBy, filterRole, filterDepartment, searchBar, employeesContainer, notification) {
         this.filterBy = filterBy;
         this.filterRole = filterRole;
+        this.filterDepartment = filterDepartment;
         this.searchBar = searchBar;
         this.employeesContainer = employeesContainer;
         this.notification = notification;
 
-        this.filterEmployees();  // Call to filter employees upon initialization
+        this.filterEmployees();
 
-        this.setupEventListeners();  // Set up event listeners for filtering
+        this.syncSelectOptionsBetweenDepartmentAndRole();
+
+        this.setupEventListeners();
     }
 
     /**
-     * Sets up event listeners for the filter elements and search bar.
+     * Set up event listeners for filter elements and search bar.
      */
     setupEventListeners() {
         this.filterBy.addEventListener('change', this.filterEmployees.bind(this));
         this.filterRole.addEventListener('change', this.filterEmployees.bind(this));
+        this.filterDepartment.addEventListener('change', () => {
+            this.syncSelectOptionsBetweenDepartmentAndRole();
+            this.filterEmployees();
+        });
         this.searchBar.addEventListener('input', this.filterEmployees.bind(this));
     }
 
     /**
-     * Fetches filtered employees from the server and updates the employee container.
+     * Synchronize select options between department and role based on selected department.
+     */
+    syncSelectOptionsBetweenDepartmentAndRole() {
+        const options = {
+            IT: [
+                { value: '', text: 'Toate rolurile'},
+                { value: 'Manager IT', text: 'Manager IT' },
+                { value: 'Suport', text: 'Suport' },
+                { value: 'Tehnic', text: 'Tehnic' }
+            ],
+            Operational: [
+                { value: '', text: 'Toate rolurile'},
+                { value: 'Director Operational', text: 'Director Operational' },
+                { value: 'Manager Regional', text: 'Manager Regional' },
+                { value: 'Manager Zonal', text: 'Manager Zonal' },
+                { value: 'Manager Local', text: 'Manager Local' },
+                { value: 'Operator', text: 'Operator' }
+            ],
+            Toate_Departamentele: [
+                { value: '', text: 'Toate rolurile'},
+                { value: 'Manager IT', text: 'Manager IT' },
+                { value: 'Suport', text: 'Suport' },
+                { value: 'Tehnic', text: 'Tehnic' },
+                { value: 'Director Operational', text: 'Director Operational' },
+                { value: 'Manager Regional', text: 'Manager Regional' },
+                { value: 'Manager Zonal', text: 'Manager Zonal' },
+                { value: 'Manager Local', text: 'Manager Local' },
+                { value: 'Operator', text: 'Operator' }
+            ]
+        };
+
+        console.log(this.filterDepartment.value)
+
+        if (!this.filterDepartment.value) {
+            this.populateSelectOptions(this.filterRole, options['Toate_Departamentele']);
+        } else {
+            this.populateSelectOptions(this.filterRole, options[this.filterDepartment.value] || []);
+        }
+    }
+
+    /**
+     * Populate a select element with the provided options.
+     * @param {HTMLSelectElement} selectElement - The select element to populate.
+     * @param {Array<Object>} options - Array of option objects to populate the select with.
+     */
+    populateSelectOptions(selectElement, options) {
+        selectElement.innerHTML = '';
+
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Rol';
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        selectElement.appendChild(placeholder);
+
+        options.forEach(option => {
+            const newOption = document.createElement('option');
+            newOption.value = option.value;
+            newOption.textContent = option.text;
+            selectElement.appendChild(newOption);
+        });
+    }
+
+    /**
+     * Filter employees based on selected criteria and search input.
      */
     filterEmployees() {
         fetch('employees/filter', {
@@ -39,6 +113,7 @@ export class CardEmployee {
             body: JSON.stringify({
                 filterBy: this.filterBy.value,
                 filterRole: this.filterRole.value,
+                filterDepartment: this.filterDepartment.value,
                 searchBar: this.searchBar.value
             })
         })
@@ -56,7 +131,7 @@ export class CardEmployee {
     }
 
     /**
-     * Initializes FullCardEmployee instances for each employee card in the container.
+     * Set up full employee cards based on the filtered results.
      */
     setFullCard() {
         this.employeeCard = this.employeesContainer.querySelectorAll('.full-card-employee');
@@ -67,13 +142,15 @@ export class CardEmployee {
     }
 }
 
+/**
+ * Class representing an employee's full card with editing capabilities.
+ */
 class FullCardEmployee {
     /**
-     * Initializes a new instance of the FullCardEmployee class.
-     *
-     * @param {HTMLElement} card - The employee card element.
-     * @param {Notification} notification - The notification handler for displaying messages.
-     * @param {Function} filter - The filter function to call after editing or deleting an employee.
+     * Create a FullCardEmployee instance.
+     * @param {HTMLElement} card - The card element representing an employee.
+     * @param {Notification} notification - Notification system to display messages to the user.
+     * @param {Function} filter - Function to filter employees after actions like editing or deleting.
      */
     constructor(card, notification, filter) {
         this.card = card;
@@ -100,7 +177,7 @@ class FullCardEmployee {
     }
 
     /**
-     * Sets up event listeners for the edit, delete, and save buttons.
+     * Set up event listeners for the card's buttons and inputs.
      */
     setupEventListeners() {
         this.editButton.addEventListener('click', () => this.updateFormSizeAndState());
@@ -110,7 +187,7 @@ class FullCardEmployee {
     }
 
     /**
-     * Enables the input fields and buttons for editing an employee.
+     * Enable input elements in the editing container.
      */
     enableElements() {
         this.allInputs.forEach(input => input.disabled = false);
@@ -119,7 +196,7 @@ class FullCardEmployee {
     }
 
     /**
-     * Disables the input fields and buttons for editing an employee.
+     * Disable input elements in the editing container.
      */
     disableElements() {
         this.allInputs.forEach(input => input.disabled = true);
@@ -127,9 +204,12 @@ class FullCardEmployee {
         this.deleteButton.disabled = true;
     }
 
+    /**
+     * Sync role options based on the selected department.
+     */
     syncSelectOptionsBetweenDepartmentAndRole() {
         const optionsIT = [
-            { value: 'Manager', text: 'Manager' },
+            { value: 'Manager IT', text: 'Manager IT' },
             { value: 'Suport', text: 'Suport' },
             { value: 'Tehnic', text: 'Tehnic'}
         ];
@@ -169,7 +249,7 @@ class FullCardEmployee {
     }
 
     /**
-     * Resets the values of the input fields in the employee edit form.
+     * Reset the values of input elements in the editing container.
      */
     resetElementsValue() {
         this.allInputs.forEach(element => {
@@ -183,7 +263,7 @@ class FullCardEmployee {
     }
 
     /**
-     * Toggles the size and state of the edit container for the employee.
+     * Update the size and state of the edit container.
      */
     updateFormSizeAndState() {
         if (this.editContainer.style.width === '0px' || this.editContainer.style.width === '') {
@@ -199,7 +279,8 @@ class FullCardEmployee {
     }
 
     /**
-     * Deletes the employee after user confirmation and updates the employee list.
+     * Delete the employee associated with this card.
+     * Prompts for confirmation before proceeding with deletion.
      */
     deleteEmployee() {
         const confirmation = confirm("Sigur vrei sa stergi acest utilizator ?");
@@ -229,7 +310,8 @@ class FullCardEmployee {
     }
 
     /**
-     * Edits the employee details and updates the employee list after confirmation.
+     * Edit the employee details based on the input values in the card.
+     * Prompts for confirmation before proceeding with the edit.
      */
     editEmployee() {
         const lastName = this.card.querySelector('#edit-last-name');

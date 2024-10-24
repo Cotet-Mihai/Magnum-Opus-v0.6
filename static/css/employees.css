@@ -87,6 +87,10 @@ body{
     background: var(--yellow-level-0);
 }
 
+#blue-dot{
+    background: #1072ff;
+}
+
 /*---------------------------------------------------- Info Right ---------------------------------------------*/
 
 #right-container button{
@@ -218,7 +222,12 @@ body{
     width: 300px;
 }
 
-#filter-role{
+#filter-role {
+    margin-left: 10px;
+    width: 155px;
+}
+
+#filter-department{
     margin-left: 10px;
 }
 
